@@ -26,7 +26,7 @@ class Comparison
 
     public function detectThreshold($code_1, $code_2)
     {
-        $len_diff = strlen($code_1) - strlen($code_2);
+        $len_diff = abs(strlen($code_1) - strlen($code_2));
 
         echo "length diff = ".$len_diff.PHP_EOL;
 

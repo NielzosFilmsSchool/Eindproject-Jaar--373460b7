@@ -7,11 +7,11 @@ spl_autoload_register(
 );
 
 $text_1 = file_get_contents(
-    "Test_files\script_1.js"
+    "Test_files\script_2.js"
 );
 
 $text_2 = file_get_contents(
-    "Test_files\script_2.js"
+    "Test_files\script_2 - Copy.js"
 );
 
 echo "File 1 length: ".strlen($text_1).PHP_EOL;
