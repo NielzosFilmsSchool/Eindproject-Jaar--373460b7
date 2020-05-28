@@ -39,7 +39,7 @@ class CustomComparison
 
         echo "Length diff = ".$len_diff.PHP_EOL;
 
-        $new_thresh = $this->map($len_diff, 0, 500, 50, 100);
+        $new_thresh = $this->map($len_diff, 0, 500, 75, 100);
         $new_thresh = round($new_thresh*10)/10;
         
         echo "New threshold = " . $new_thresh.PHP_EOL;
