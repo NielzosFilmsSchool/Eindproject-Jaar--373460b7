@@ -25,12 +25,12 @@ class CustomComparison
 
     public function detectThreshold($code_1, $code_2)
     {
-        $len_diff = abs(strlen($code_1) - strlen($code_2));
+        $len_diff = abs(count($code_1) - count($code_2));
 
-        echo "length diff = ".$len_diff.PHP_EOL;
+        echo "Length diff = ".$len_diff.PHP_EOL;
 
-        $new_thresh = $this->map($len_diff, 0, 1000, 50, 100);
-        echo "new threshold = " . $new_thresh.PHP_EOL;
+        $new_thresh = $this->map($len_diff, 0, 500, 50, 100);
+        echo "New threshold = " . $new_thresh.PHP_EOL;
 
         $this->thresh = $new_thresh;
     }
