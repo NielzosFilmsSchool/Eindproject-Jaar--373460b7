@@ -11,7 +11,11 @@ $text_1 = array();
 $handle = fopen("Test_files\script_2.js", "r");
 if ($handle) {
     while (($line = fgets($handle)) !== false) {
-        array_push($text_1, $line);
+        $line_noSpace = trim($line);
+        if ($line_noSpace == "") {
+            continue;
+        }
+        array_push($text_1, $line_noSpace);
     }
 
     fclose($handle);
@@ -24,7 +28,11 @@ $text_2 = array();
 $handle = fopen("Test_files\script_2 - Copy.js", "r");
 if ($handle) {
     while (($line = fgets($handle)) !== false) {
-        array_push($text_2, $line);
+        $line_noSpace = trim($line);
+        if ($line_noSpace == "") {
+            continue;
+        }
+        array_push($text_2, $line_noSpace);
     }
 
     fclose($handle);
