@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>BRUH</h1>
-    <form action="test.php" method="POST">
+    <form action="codeFromGithub.php" method="POST">
         <input type="text" name="link">
         <input type="text" name="fileName">
         <input type="submit" name="submit" value="Submit">
