@@ -1,15 +1,15 @@
 <?php
-//Dit is voor de test
+//Dit is voor een snelle test
 // $link = "https://github.com/LyxurD4/No-More-Errors-54511501/archive/master.zip";
 
-// Dit moet de echte lijn worden 
+// De "goede" manier 
 if (isset($_POST["submit"])) {
     $link = $_POST["link"];
     $fileName = $_POST["fileName"];
 }
 
+// In de trueDataArray staat alle data van waarde
 $dataArray = explode ("/", $link);
-
 $trueDataArray = array (
     "username" => $dataArray[3],
     "repoName" => $dataArray[4],
@@ -18,6 +18,7 @@ $trueDataArray = array (
     "downloadLink" => $link . "/archive/master.zip"
 );
 
+// Hier wordt een zip aangemaakt en geunzipt
 file_put_contents("master.zip",
     file_get_contents($trueDataArray["downloadLink"])
 );
@@ -25,15 +26,15 @@ file_put_contents("master.zip",
 $zip = new ZipArchive;
 $res = $zip->open('master.zip');
 if ($res === TRUE) {
-    $zip->extractTo("code");
+    $zip->extractTo("codeData");
     $zip->close();
     unlink("master.zip");
 } else {
     echo 'Error: No file has been unzipped';
 }
 
-// $file = fopen($trueDataArray["repoName"] . "\wisselgeld.php", "r");
-$file = fopen("code" . "/". $trueDataArray["repoName"] . "-master/" . $trueDataArray["fileName"], "r");
+// Deze functie laat elke lijn van code een waarde zijn in de fileArray
+$file = fopen("codeData" . "/". $trueDataArray["repoName"] . "-master/" . $trueDataArray["fileName"], "r");
 $fileArray = array();
 $index = -1;
 while (! feof($file)) {
