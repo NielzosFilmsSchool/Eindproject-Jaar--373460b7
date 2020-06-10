@@ -11,6 +11,9 @@ class Comparison
 
     public function compare($code_1, $code_2)
     {
+        $code_1 = $this->removeWhiteSpaces($code_1);
+        $code_2 = $this->removeWhiteSpaces($code_2);
+
         $result = 0;
         $simular = false;
 
@@ -59,6 +62,19 @@ class Comparison
         $tmpValue *= $scaleFactor;
 
         return $tmpValue + $toLow;
+    }
+
+    private function removeWhiteSpaces($code)
+    {
+        $new_code = array();
+        foreach ($code as $line) {
+            $line_noSpace = trim($line);
+            if ($line == "") {
+                continue;
+            }
+            array_push($new_code, strtolower($line_noSpace));
+        }
+        return $new_code;
     }
 
     public function setThreshold($thresh)
