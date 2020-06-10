@@ -2,7 +2,7 @@
 //Dit is voor een snelle test
 // $link = "https://github.com/LyxurD4/No-More-Errors-54511501/archive/master.zip";
 
-// De "goede" manier 
+// De "echte" manier 
 if (isset($_POST["submit"])) {
     $link = $_POST["link"];
     $fileName = $_POST["fileName"];
