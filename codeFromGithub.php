@@ -66,20 +66,21 @@ echo var_dump($trueDataArray["link"]);*/
 //Snelle tests
 // var_dump($fileArray);
 
+//-------------------------------------------------------------------------------------------
 
 //repo name, remove code at the end
-/*$repo_name = explode("-", $trueDataArray["repoName"]);
+$repo_name = explode("-", $trueDataArray["repoName"]);
 unset($repo_name[count($repo_name)-1]);
-$repo_name_final = implode("-", $repo_name);*/
+$repo_name_final = implode("-", $repo_name);
 
-//Opslaan in de database
+//database connection
 $dsn = "mysql:host=localhost;dbname=dupe_comparison";
 $user = "root";
 $passwd = "";
 
 $pdo = new PDO($dsn, $user, $passwd);
 
-//plagiaat check
+//class includer
 spl_autoload_register(
     function ($class_name) {
         include $class_name . '.class.php';
@@ -87,15 +88,36 @@ spl_autoload_register(
 );
 $comparer = new Comparison();
 
-$result = null;
-$result_id = null;
+//get all the exercises with the same name
+$exercises = $pdo->query("SELECT * FROM exercise WHERE exercise_name LIKE '".$repo_name_final."%'");
+echo $repo_name_final;
 
-$exercises = $pdo->query('SELECT * FROM exercise WHERE exercise_name LIKE "'.$trueDataArray["repoName"].'%"');
-if ($exercises->rowCount() != 1) {
+//insert the current exercise
+$insert = $pdo->prepare(
+    "INSERT INTO exercise
+    (username, link, exercise_name, filename,  highest_dupe_percentage, dupe)
+    VALUES ('".$trueDataArray["username"]."', '".$trueDataArray["link"]."', '".$trueDataArray["repoName"]."', '".$trueDataArray["fileName"]."',
+    0, 0)"
+);
+$insert->execute();
+
+//check if exercises with same name exist
+if ($exercises->rowCount() > 0) {
+    $highest_percentage = 0;
+    $dupe = 0;
+    $result_id = null;
+
+    //get id of current exercise
+    $current_exercise_ = $pdo->query(
+        "SELECT * FROM exercise
+        WHERE exercise_name = '".$trueDataArray["repoName"]."'"
+    );
+    $current_exercise = $current_exercise_->fetch();
+
     while ($row = $exercises->fetch()) {
         if ($trueDataArray["username"] != $row["username"]) {
             //get code of second file
-            $file2 = fopen("codeData" . "/". $row["exercise_name"] . "-master/" . $row["fileName"], "r");
+            $file2 = fopen("codeData" . "/". $row["exercise_name"] . "-master/" . $row["filename"], "r");
             $fileArray2 = array();
             $index2 = -1;
             while (! feof($file2)) {
@@ -104,29 +126,43 @@ if ($exercises->rowCount() != 1) {
                 $fileArray2[$index2] = $line2;
             }
 
+            //compare
             $comparer->detectThreshold($fileArray, $fileArray2);
             $result = $comparer->compare($fileArray, $fileArray2);
-            $result_id = $row["id"];
             echo var_dump($result);
+
+            //save values if higher than the older values
+            if ($result[1] > $highest_percentage) {
+                $highest_percentage = $result[1];
+                $dupe = $result[0];
+                $result_id = $row["id"];
+
+                //update current row exercise in the database if value is higher
+                if ($highest_percentage > $row["highest_dupe_percentage"]) {
+                    $update = $pdo->prepare(
+                        "UPDATE exercise
+                        SET highest_dupe_percentage = $highest_percentage, 
+                        dupe = $dupe,
+                        dupe_exercise_id = ".$current_exercise["id"]."
+                        WHERE id = ".$row["id"]
+                    );
+                    $update->execute();
+                }
+            }
         }
     }
+
+    //final update to the current exercise
+    $update_ = $pdo->prepare(
+        "UPDATE exercise
+        SET highest_dupe_percentage = $highest_percentage, 
+        dupe = $dupe,
+        dupe_exercise_id = $result_id
+        WHERE id = ".$current_exercise["id"]
+    );
+    $update_->execute();
 }
 
-if ($result == null) {
-    $stmt = $pdo->prepare(
-        "INSERT INTO exercise
-        (username, link, exercise_name, filename)
-        VALUES ('".$trueDataArray["username"]."', '".$trueDataArray["link"]."', '".$trueDataArray["repoName"]."', '".$trueDataArray["fileName"]."')"
-    );
-    $stmt->execute();
-} else {
-    $stmt = $pdo->prepare(
-        "INSERT INTO exercise
-        (username, link, exercise_name, filename, highest_dupe_percentage, dupe_exercise_id, dupe)
-        VALUES ('".$trueDataArray["username"]."', '".$trueDataArray["link"]."', '".$trueDataArray["repoName"]."', '".$trueDataArray["fileName"]."',
-        ".$result[1].", ".$result_id.", ".$result[0].")"
-    );
-    $stmt->execute();
-}
 
+//uncomment to see the output of this page
 header("refresh:0; url=index.php");

@@ -15,7 +15,7 @@ class Comparison
         $code_2 = $this->removeWhiteSpaces($code_2);
 
         $result = 0;
-        $simular = false;
+        $simular = 0;
 
         $linesFound = 0;
         foreach ($code_2 as $line_2) {
@@ -24,14 +24,14 @@ class Comparison
             }
         }
         
-        echo "Simular lines found = $linesFound";
-        echo PHP_EOL;
+        /*echo "Simular lines found = $linesFound";
+        echo PHP_EOL;*/
 
         $result = (100 / count($code_1) * $linesFound);
         $result = round($result*10)/10;
 
         if ($result > $this->thresh) {
-            $simular = true;
+            $simular = 1;
         }
 
         return array($simular, $result);
@@ -41,12 +41,12 @@ class Comparison
     {
         $len_diff = abs(count($code_1) - count($code_2));
 
-        echo "Length diff = ".$len_diff.PHP_EOL;
+        //echo "Length diff = ".$len_diff.PHP_EOL;
 
         $new_thresh = $this->map($len_diff, 0, 500, 75, 100);
         $new_thresh = round($new_thresh*10)/10;
         
-        echo "New threshold = " . $new_thresh.PHP_EOL;
+        //echo "New threshold = " . $new_thresh.PHP_EOL;
 
         $this->thresh = $new_thresh;
     }
