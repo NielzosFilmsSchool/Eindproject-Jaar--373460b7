@@ -116,6 +116,22 @@ if ($exercises->rowCount() > 0) {
 
     while ($row = $exercises->fetch()) {
         if ($trueDataArray["username"] != $row["username"]) {
+            // Hier wordt een zip aangemaakt en geunzipt
+            file_put_contents(
+                "master.zip",
+                file_get_contents($trueDataArray["downloadLink"])
+            );
+
+            $zip = new ZipArchive;
+            $res = $zip->open('master.zip');
+            if ($res === true) {
+                $zip->extractTo("codeData");
+                $zip->close();
+                unlink("master.zip");
+            } else {
+                echo 'Error: No file has been unzipped';
+            }
+            
             //get code of second file
             $file2 = fopen("codeData" . "/". $row["exercise_name"] . "-master/" . $row["filename"], "r");
             $fileArray2 = array();
