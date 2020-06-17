@@ -15,7 +15,7 @@ $trueDataArray = array (
     "repoName" => $dataArray[4],
     "fileName" => $fileName,
     "link" => $link,
-    "downloadLink" => $link . "/archive/master.zip"
+    "downloadLink" => $link . "/archive/master.zip" 
 );
 
 // Hier wordt een zip aangemaakt en geunzipt
@@ -43,7 +43,7 @@ while (! feof($file)) {
     $fileArray[$index] = $line;
 }
 
-//Voor als we het willen wegsturen
+// Voor als we het willen wegsturen
 // setcookie("fileArray", $fileArray, time() + 3600);
 // header("refresh:0; url=index.php");
     
