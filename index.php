@@ -11,7 +11,6 @@
     <h1>Comparison Test</h1>
     <form action="codeFromGithub.php" method="POST">
         <input type="text" name="link" placeholder="Link...">
-        <input type="text" name="fileName" placeholder="Filename...">
         <input type="submit" name="submit" value="Submit">
     </form>
 
@@ -21,10 +20,6 @@
             <th>Username</th>
             <th>Repo Link</th>
             <th>Exercise Name</th>
-            <th>Filename</th>
-            <th>Dupe Percentage</th>
-            <th>Dupe ID</th>
-            <th>Dupe</th>
         </tr>
         <?php
         $dsn = "mysql:host=localhost;dbname=dupe_comparison";
@@ -40,10 +35,6 @@
             <td><?= $row["username"]?></td>
             <td><?= $row["link"]?></td>
             <td><?= $row["exercise_name"]?></td>
-            <td><?= $row["filename"]?></td>
-            <td><?= $row["highest_dupe_percentage"]?></td>
-            <td><?= $row["dupe_exercise_id"]?></td>
-            <td><?= $row["dupe"]?></td>
         </tr>
         <?php
         }
