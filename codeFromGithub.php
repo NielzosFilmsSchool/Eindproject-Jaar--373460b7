@@ -204,6 +204,7 @@ $json = array(
     "repo_name" => $trueDataArray["repoName"],
     "files" => $final_json_files,
 );
-echo json_encode($json);
-
+$json = json_encode($json);
+$json = str_replace("\\", "", $json);
+echo $json;
 //header("refresh:0; url=index.php");
