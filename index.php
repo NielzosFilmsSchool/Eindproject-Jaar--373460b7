@@ -44,8 +44,7 @@
     <?php
     if (isset($_POST["submit"])) {
         $json = file_get_contents(
-            "http://localhost/Eindproject-Jaar--373460b7/codeFromGithub.php?
-            repo_link=".$_POST["repo_link"]
+            "http://localhost/Eindproject-Jaar--373460b7/codeFromGithub.php?repo_link=".$_POST["repo_link"]
         );
         echo $json;
     }
