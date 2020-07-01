@@ -9,7 +9,7 @@
 
 <body>
     <h1>Comparison Test</h1>
-    <form action="index.php" method="POST">
+    <form action="codeFromGithub.php" method="GET">
         <input type="text" name="repo_link" placeholder="Link...">
         <input type="submit" name="submit" value="Submit">
     </form>
@@ -40,16 +40,6 @@
         }
         ?>
     </table>
-
-    <?php
-    if (isset($_POST["submit"])) {
-        $json = file_get_contents(
-            "http://localhost/Eindproject-Jaar--373460b7/codeFromGithub.php?
-            repo_link=".$_POST["repo_link"]
-        );
-        echo $json;
-    }
-    ?>
 
 </body>
 
