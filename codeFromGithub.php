@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 //class includer
 spl_autoload_register(
     function ($class_name) {
@@ -16,9 +17,7 @@ $pdo = new PDO($dsn, $user, $passwd);
 $comparer = new Comparison();
 
 // De "echte" manier
-if (isset($_POST["submit"])) {
-    $link = $_POST["link"];
-}
+$link = $_GET["repo_link"];
 
 // In de trueDataArray staat alle data van waarde
 $dataArray = explode("/", $link);
@@ -42,13 +41,13 @@ if ($res === true) {
     $zip->close();
     unlink("master.zip");
 } else {
-    echo 'Error: No file has been unzipped';
+    //echo 'Error: No file has been unzipped';
 }
 
 
 $directory = "codeData/".$trueDataArray["repoName"]."-master";
 $files = array_diff(scandir($directory), array('..', '.', 'README.md', '.gitignore'));
-echo var_dump($files);
+//echo var_dump($files);
 
 //insert the current exercise
 $insert_exercise = $pdo->prepare(
@@ -65,8 +64,17 @@ $current_exercise_ = $pdo->query(
 );
 $current_exercise = $current_exercise_->fetch();
 
+$final_json_files = array();
+
 // Deze functie laat elke lijn van code een waarde zijn in de fileArray
 foreach ($files as $filename) {
+    $final_file = array(
+        "filename" => $filename,
+        "dupe_percentage" => 0,
+        "dupe" => 0,
+    );
+    //$final_json_files[] = $final_file;
+    
     $insert_file = $pdo->prepare(
         "INSERT INTO files
         (filename, exercise_id)
@@ -89,7 +97,7 @@ foreach ($files as $filename) {
 
     //get all the exercises with the same name
     $exercises = $pdo->query("SELECT * FROM exercise WHERE exercise_name LIKE '".$repo_name_final."%'");
-    echo $repo_name_final;
+    //echo $repo_name_final;
 
     //check if exercises with same name exist
     if ($exercises->rowCount() > 0) {
@@ -112,7 +120,7 @@ foreach ($files as $filename) {
                     $zip->close();
                     unlink("master.zip");
                 } else {
-                    echo 'Error: No file has been unzipped';
+                    //echo 'Error: No file has been unzipped';
                 }
                 
                 //get code of second file
@@ -128,7 +136,7 @@ foreach ($files as $filename) {
                 //compare
                 $comparer->detectThreshold($fileArray, $fileArray2);
                 $result = $comparer->compare($fileArray, $fileArray2);
-                echo var_dump($result);
+                //echo var_dump($result);
 
                 //save values if higher than the older values
                 if ($result[1] > $highest_percentage) {
@@ -151,6 +159,9 @@ foreach ($files as $filename) {
                                 WHERE id = ".$db_file["id"]
                             );
                             $update->execute();
+                            
+                            $final_file["dupe_percentage"] = $highest_percentage;
+                            $final_file["dupe"] = $dupe;
                         }
                     } else {
                         $insert = $pdo->prepare(
@@ -176,11 +187,24 @@ foreach ($files as $filename) {
                             WHERE id = ".$db_file_current["id"]
                         );
                         $update->execute();
+                        
+                        $final_file["dupe_percentage"] = $highest_percentage;
+                        $final_file["dupe"] = $dupe;
                     }
                 }
             }
         }
     }
+    array_push($final_json_files, $final_file);
 }
 
-header("refresh:0; url=index.php");
+$json = array(
+    "username" => $trueDataArray["username"],
+    "repo_link" => $trueDataArray["link"],
+    "repo_name" => $trueDataArray["repoName"],
+    "files" => $final_json_files,
+);
+$json = json_encode($json);
+$json = str_replace("\\", "", $json);
+echo $json;
+//header("refresh:0; url=index.php");

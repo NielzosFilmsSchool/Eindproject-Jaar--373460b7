@@ -9,8 +9,8 @@
 
 <body>
     <h1>Comparison Test</h1>
-    <form action="codeFromGithub.php" method="POST">
-        <input type="text" name="link" placeholder="Link...">
+    <form action="codeFromGithub.php" method="GET">
+        <input type="text" name="repo_link" placeholder="Link...">
         <input type="submit" name="submit" value="Submit">
     </form>
 
