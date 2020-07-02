@@ -10392,21 +10392,6 @@
                         <mat-icon _ngcontent-rit-c206="" role="img" class="mat-icon notranslate material-icons mat-icon-no-color ng-star-inserted" aria-hidden="true" tabindex="0">arrow_back</mat-icon>
                         <!----> No More Errors
                       </h1>
-                      <div _ngcontent-rit-c206="" class="actions">
-                        <div _ngcontent-rit-c217="" class="actions">
-                          <!---->
-                          <!---->
-                          <!---->
-                          <!---->
-                        </div>
-                        <form action="http://localhost/Eindproject-Jaar--373460b7/results.php" method="POST">
-                          <input type="hidden" name="repo_link" value="https://github.com/NielzosFilmsSchool/No-More-Errors-7ec4faf2">
-                          <input type="submit" name="submit" value="Inleveren" _ngcontent-lso-c198="" color="accent" mat-raised-button="" class="mat-raised-button mat-button-base mat-accent ng-tns-c198-42 ng-star-inserted"><span class="mat-button-wrapper">
-                          </span>
-                          <div matripple="" class="mat-ripple mat-button-ripple"></div>
-                          <div class="mat-button-focus-overlay"></div>
-                        </form>
-                      </div>
                     </div>
                   </app-header>
                   <app-exercise-display _ngcontent-rit-c217="" class="mat-elevation-z2 ng-tns-c217-20 ng-trigger ng-trigger-singleComponentAppear ng-star-inserted" _nghost-rit-c216="" style="">
@@ -10465,6 +10450,23 @@
                             <!----><span _ngcontent-lso-c193="" class="state-label">Actief</span>
                           </div>
                         </div>
+                        <h2 _ngcontent-rit-c216="">BitDupeDetection resultaten:</h2>
+                        <?php
+                        if (isset($_POST["submit"])) {
+                          $json = file_get_contents(
+                            "http://localhost/Eindproject-Jaar--373460b7/codeFromGithub.php?repo_link=" . $_POST["repo_link"]
+                          );
+                          $dataObject = json_decode($json);
+                          // echo $dataObject->files[0]->dupe_percentage;
+                          if ($dataObject->files[0]->dupe == 1) {
+                            $dupe = "Ja";
+                          } else {
+                            $dupe = "Nee";
+                          }
+                        }
+                        ?>
+                        <p>Dupe Percentage: <?php echo $dataObject->files[0]->dupe_percentage ?></p>
+                        <p>Dupe: <?php echo $dupe ?></p>
                         <!---->
                         <!---->
                         <!---->
