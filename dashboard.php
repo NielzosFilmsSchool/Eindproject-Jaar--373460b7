@@ -8,7 +8,8 @@
 
 <body>
     <header>
-        <img src="img/logo.png" alt="Bit Logo" class="logo">
+        <a href="http://localhost/Eindproject-Jaar--373460b7/index.php"><img src="img/logo.png" alt="Bit Logo"
+                class="logo"></a>
     </header>
     <main>
         <h1 style="padding: 20px;">Dashboard</h1>
@@ -63,8 +64,10 @@
                                     <td>
                                         <?php
                                         $person = $pdo->query("SELECT * FROM exercise WHERE id = ".$file["dupe_exercise_id"]);
-                        $person = $person->fetch();
-                        echo $person["username"]; ?>
+                        if ($person) {
+                            $person = $person->fetch();
+                            echo $person["username"];
+                        } ?>
                                     </td>
                                 </tr>
                                 <?php
