@@ -9,7 +9,7 @@
 
 <body>
     <h1>Comparison Test</h1>
-    <form action="index.php" method="POST">
+    <form method="POST">
         <input type="text" name="repo_link" placeholder="Link...">
         <input type="submit" name="submit" value="Submit">
     </form>
@@ -46,7 +46,8 @@
         $json = file_get_contents(
             "http://localhost/Eindproject-Jaar--373460b7/codeFromGithub.php?repo_link=".$_POST["repo_link"]
         );
-        echo $json;
+        header("refresh:0; url=oudeIndex.php");
+        //echo $json;
     }
     ?>
 

@@ -207,4 +207,4 @@ $json = array(
 $json = json_encode($json);
 $json = str_replace("\\", "", $json);
 echo $json;
-header("refresh:0; url=results.php");
+//header("refresh:0; url=results.php");

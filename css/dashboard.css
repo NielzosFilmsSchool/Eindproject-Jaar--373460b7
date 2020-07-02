@@ -27,6 +27,7 @@ main {
 	width: 80%;
 	margin-left: auto;
 	margin-right: auto;
+	position: relative;
 }
 
 .table {
@@ -51,4 +52,20 @@ td,
 th {
 	color: rgba(0, 0, 0, 0.54);
 	padding: 20px;
+}
+
+.dashboard_form {
+	position: absolute;
+	top: 10px;
+	right: 50px;
+	padding: 10px;
+	border: 1px solid lightgray;
+	background-color: #fff;
+	box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+		0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.dashboard_form input {
+	padding: 5px;
+	border: 1px solid lightgray;
 }

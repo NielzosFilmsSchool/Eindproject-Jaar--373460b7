@@ -12,6 +12,22 @@
                 class="logo"></a>
     </header>
     <main>
+        <div class="dashboard_form">
+            <form method="POST">
+                <input type="text" name="repo_link" placeholder="Link...">
+                <input type="submit" name="submit" value="Submit">
+            </form>
+        </div>
+        <?php
+        if (isset($_POST["submit"])) {
+            $json = file_get_contents(
+                "http://localhost/Eindproject-Jaar--373460b7/codeFromGithub.php?repo_link=".$_POST["repo_link"]
+            );
+            header("refresh:0;");
+            //echo $json;
+        }
+        ?>
+
         <h1 style="padding: 20px;">Dashboard</h1>
         <div class="table">
             <table>
