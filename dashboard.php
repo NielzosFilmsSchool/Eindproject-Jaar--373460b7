@@ -19,7 +19,6 @@
                     <td>Exercise Name</td>
                     <td>Repo Link</td>
                     <td>Plagiaat</td>
-                    <td>Files</td>
                 </tr>
                 <?php
                 $dsn = "mysql:host=localhost;dbname=dupe_comparison";
@@ -36,12 +35,14 @@
                             $dupe = "Ja";
                         }
                     } ?>
-                <tr>
+                <tr style="border:0">
                     <td><?= $row["username"]?></td>
                     <td><?= $row["exercise_name"]?></td>
                     <td><a href="<?= $row["link"]?>"><?= $row["link"]?></a></td>
                     <td><?= $dupe?></td>
-                    <td style="width: 40%;">
+                </tr>
+                <tr>
+                    <td colspan="4">
                         <details>
                             <summary>File Details</summary>
                             <table class="files_table">
@@ -58,7 +59,7 @@
                                 <tr>
                                     <td><?= $file["filename"]?></td>
                                     <td><?= $file["dupe_percentage"]?></td>
-                                    <td><?= $file["dupe"]?></td>
+                                    <td><?= $file["dupe"]?"Ja":"Nee" ?></td>
                                     <td>
                                         <?php
                                         $person = $pdo->query("SELECT * FROM exercise WHERE id = ".$file["dupe_exercise_id"]);
