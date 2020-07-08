@@ -10496,7 +10496,6 @@
                                                             class="state-label">Actief</span>
                                                     </div>
                                                 </div>
-                                                <h2 _ngcontent-rit-c216="">BitDupeDetection resultaten:</h2>
                                                 <?php
                         if (isset($_POST["submit"])) {
                             $json = file_get_contents(
@@ -10509,18 +10508,48 @@
                             } else {
                                 $dupe = "Nee";
                             }
-                        }
-                        ?>
+                            if ($dataObject != null) {
+                                ?>
+                                                <h2 _ngcontent-rit-c216="">BitDupeDetection resultaten:</h2>
                                                 <p>Dupe Percentage: <?php echo $dataObject->files[0]->dupe_percentage ?>
                                                 </p>
                                                 <p>Dupe: <?php echo $dupe ?></p>
+
+                                                <script>
+                                                function open() {
+                                                    document.getElementById("popup").style.display = "block";
+                                                    document.getElementById("popup_black").style.display = "block";
+                                                }
+                                                window.onload = open;
+
+                                                function exit() {
+                                                    document.getElementById("popup").style.display = "none";
+                                                    document.getElementById("popup_black").style.display = "none";
+                                                }
+                                                </script>
+                                                <?php
+                            } else {
+                                ?>
+                                                <script>
+                                                function exit() {
+                                                    document.getElementById("popup").style.display = "none";
+                                                    document.getElementById("popup_black").style.display = "none";
+                                                }
+                                                window.onload = exit;
+                                                </script>
+                                                <?php
+                            }
+                        }
+                        ?>
                                                 <!---->
                                                 <!---->
                                                 <!---->
                                                 <h2 _ngcontent-rit-c216="">Omschrijving</h2>
                                                 <markdown _ngcontent-rit-c216="" emoji="">
-                                                    <p>Soms gaan er nog wel eens dingen fout bij het uitvoeren van je
-                                                        programma. We willen natuurlijk niet dat iemand daar misbruik
+                                                    <p>Soms gaan er nog wel eens dingen fout bij het uitvoeren van
+                                                        je
+                                                        programma. We willen natuurlijk niet dat iemand daar
+                                                        misbruik
                                                         van kan maken. We willen ten alle kosten voorkomen dat ons
                                                         programma crasht! Daarom gaan we onze applicatie beschermen
                                                         tegen foutieve input.</p>
@@ -10530,8 +10559,10 @@
                                                 <h2 _ngcontent-rit-c216="">Leerdoelen</h2>
                                                 <markdown _ngcontent-rit-c216="" emoji="">
                                                     <p>Nadat je in de vorige exercise geleerd hebt om een applicatie
-                                                        stap voor stap te bouwen, ga je ervoor zorgen dat foutieve input
-                                                        op de juiste manier wordt afgehandeld. Het opvangen van errors
+                                                        stap voor stap te bouwen, ga je ervoor zorgen dat foutieve
+                                                        input
+                                                        op de juiste manier wordt afgehandeld. Het opvangen van
+                                                        errors
                                                         en warnings is belangrijk zodat je code schoon, logisch en
                                                         veilig blijft.</p>
                                                 </markdown>
@@ -10555,9 +10586,12 @@
                                                             <p>Met exceptions kunnen we, zoals de naam al verraad,
                                                                 uitzonderingen defineren en opvangen. Dit doe je
                                                                 bijvoorbeeld door middel van een try-catch block. Je
-                                                                'probeert' een stuk code uit te voeren, en als er iets
-                                                                fout gaat bij het uitvoeren dan 'vang' je de error (ook
-                                                                wel exception) op. Erg handig als je de zwakke plekken
+                                                                'probeert' een stuk code uit te voeren, en als er
+                                                                iets
+                                                                fout gaat bij het uitvoeren dan 'vang' je de error
+                                                                (ook
+                                                                wel exception) op. Erg handig als je de zwakke
+                                                                plekken
                                                                 van jouw applicatie hebt geïdentificeerd.</p>
                                                         </markdown>
                                                     </div>
@@ -10568,7 +10602,8 @@
                                                 <!---->
                                                 <!---->
                                                 <!---->
-                                                <h2 _ngcontent-rit-c216="" class="ng-star-inserted" style="">Video</h2>
+                                                <h2 _ngcontent-rit-c216="" class="ng-star-inserted" style="">Video
+                                                </h2>
                                                 <div _ngcontent-rit-c216="" class="ng-star-inserted" style="">
                                                     <!---->
                                                     <div _ngcontent-rit-c216="" class="ng-star-inserted">
@@ -10584,7 +10619,8 @@
                                                 <!---->
                                                 <!---->
                                                 <!---->
-                                                <h2 _ngcontent-rit-c216="" class="ng-star-inserted" style="">Verwachte
+                                                <h2 _ngcontent-rit-c216="" class="ng-star-inserted" style="">
+                                                    Verwachte
                                                     uitkomst</h2>
                                                 <markdown _ngcontent-rit-c216="" linenumbers="" emoji=""
                                                     class="ng-star-inserted" style="">
@@ -10619,6 +10655,65 @@ $ php wissel.php "Ik wil graag 4 euro wisselen"
             <app-events _ngcontent-rit-c58="" class="ng-tns-c58-2" _nghost-rit-c55="">
                 <!---->
             </app-events>
+
+            <div id="popup_black" class="popup_black"></div>
+            <div id="popup" class="popup">
+                <div id="popup_text" class="popup_text">
+                    <h2 _ngcontent-rit-c216="">BitDupeDetection resultaten:</h2>
+                    <p>Dupe Percentage:
+                        <?php echo $dataObject->files[0]->dupe_percentage ?>
+                    </p>
+                    <p>Dupe: <?php echo $dupe ?></p>
+                    <button class="accept" onclick="exit()">Ok</button>
+                </div>
+            </div>
+
+            <style>
+            .popup_text {
+                background-color: white;
+                box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+                    0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+                padding: 20px;
+                text-align: left;
+                display: inline-block;
+                border-radius: 5px;
+                position: relative;
+            }
+
+            .accept {
+                margin: 8px;
+                background-color: #57be8e;
+                box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+                border: 0px;
+                padding: 8px;
+                width: 80px;
+            }
+
+            .popup_black {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: black;
+                opacity: 0.6;
+                filter: alpha(opacity=60);
+                z-index: 5;
+                display: none;
+            }
+
+            .popup {
+                text-align: center;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 10;
+                display: none;
+            }
+            </style>
+
         </app-page-header>
         <!---->
     </app-root>
